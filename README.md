@@ -26,7 +26,7 @@ class test_SomeAWSFunctions(unittest.TestCase):
         BluePill.FOLDER_PATH = 'placebo/s3-tests'
         BluePill.CLIENT_TYPE = 's3'
 
-    # This test will use the default s3 client and s3-tests path
+    # This test will use the default s3 client and s3-tests path from setUp
     #
     @BluePill()
     def test_your_s3_function(self, client):
