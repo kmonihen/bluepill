@@ -39,7 +39,7 @@ class BluePill(object):
             # Attach to session
             pill = placebo.attach(self.session, data_path=self.folderPath)
 
-            client = self.session.client(self.clientType)
+            kwargs['client'] = self.session.client(self.clientType)
             #TODO: get client to test function
             
             pill.playback()

@@ -86,7 +86,7 @@ class test_BluePill(unittest.TestCase):
         BluePill.FOLDER_PATH = 'test-data'
         BluePill.SESSION = self._createSession()
         @BluePill()
-        def testFunction(arg1=1, arg2=2):
+        def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
         self.result = testFunction()
 
@@ -96,7 +96,7 @@ class test_BluePill(unittest.TestCase):
         BluePill.FOLDER_PATH = 'test-data'
         BluePill.SESSION = self._createSession()
         @BluePill(client_type='cloudformation')
-        def testFunction(arg1=1, arg2=2):
+        def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
         self.result = testFunction()
     
@@ -106,7 +106,7 @@ class test_BluePill(unittest.TestCase):
         BluePill.CLIENT_TYPE = 'cloudformation'
         BluePill.SESSION = self._createSession()
         @BluePill(folder_path='test-data')
-        def testFunction(arg1=1, arg2=2):
+        def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
         self.result = testFunction()
 
@@ -116,7 +116,7 @@ class test_BluePill(unittest.TestCase):
         BluePill.CLIENT_TYPE = 'cloudformation'
         BluePill.FOLDER_PATH = 'test-data'
         @BluePill(session=self._createSession())
-        def testFunction(arg1=1, arg2=2):
+        def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
         self.result = testFunction()
     
@@ -126,7 +126,7 @@ class test_BluePill(unittest.TestCase):
         BluePill.CLIENT_TYPE = 'cloudformation'
         BluePill.FOLDER_PATH = 'test-data'
         @BluePill(session=self._createSession())
-        def testFunction(arg1=1, arg2=2):
-            client.get_available_regions() # Need to get client defined
+        def testFunction(client, arg1=1, arg2=2,):
+            client.list_stacks()
             return arg1+arg2
         self.result = testFunction()

@@ -1,0 +1,17 @@
+{
+    "status_code": 200,
+    "data": {
+        "StackSummaries": [
+            {
+                "StackId": "TestStack-12345",
+                "StackName": "StackName",
+                "TemplateDescription": "Testing Stack",
+                "CreationTime": "",
+                "LastUpdatedTime": "",
+                "DeletionTime": "",
+                "StackStatus": "CREATE_COMPLETE",
+                "StackStatusReason": "Complete"
+            }
+        ]
+    }
+}
