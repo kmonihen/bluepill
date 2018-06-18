@@ -35,8 +35,8 @@ class BluePill(object):
     # __call__
     #
     def __call__(self, function, *args, **kwargs):
-        def wrappedFunction(*args, **kwargs):
-            # Attach the session to the response data and start playback
+        def placeboTest(*args, **kwargs):
+            # Attach to session
             pill = placebo.attach(self.session, data_path=self.folderPath)
 
             client = self.session.client(self.clientType)
@@ -44,4 +44,4 @@ class BluePill(object):
             
             pill.playback()
             return function(*args, **kwargs)
-        return wrappedFunction
+        return placeboTest
