@@ -15,7 +15,7 @@ import unittest
 
 class test_SomeAWSFunctions(unittest.TestCase):
 
-    # Create a default Placebo test environment
+    # Create a default BluePill/Placebo environment
     #
     def setUp(self):
         BluePill.SESSION = boto3.Session(
@@ -26,28 +26,28 @@ class test_SomeAWSFunctions(unittest.TestCase):
         BluePill.FOLDER_PATH = 'placebo/s3-tests'
         BluePill.CLIENT_TYPE = 's3'
 
-    # This test will use the default s3 client and s3-tests path from setUp
+    # This test will use the default s3 client and placebo/s3-tests path from setUp
     #
     @BluePill()
     def test_your_s3_function(self, client):
         result = s3_fun(cfn_client=client)
         self.assertTrue(result)
 
-    # Very useful for switching to a data path for a specific test
+    # Very useful for switching mock data paths for a specific test
     #
     @BluePill(folder_path='placebo/s3-tests/test2-bad-data')
     def test_your_s3_function_test2_bad_data(self, client):
         result = s3_fun(cfn_client=client)
         self.assertFalse(result)
 
-    # We want to test cloudformation here, so switch the client and the test data location
+    # We want to test cloudformation here, so switch the client and the mock data location
     #
     @BluePill(client_type='cloudformation', folder_path='placebo/cfn-tests')
     def test_your_cloudformation_function(self, client):
         result = cfn_fun(cfn_client=client)
         self.assertTrue(result)
     
-    # Disregard using the decorator if you want to run a test without Placebo mocking
+    # Disregard using the decorator if you want to run a test without mocking
     #
     def test_your_function_with_real_api_calls(self):
         result = real_fun()
