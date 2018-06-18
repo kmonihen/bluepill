@@ -2,8 +2,10 @@
 An expanded decorator class for using Placebo when unit testing boto3 calls.
 
 ## Requirements
-Python 3.6.5
+Python 3.6
 
 ## Installation
+TODO
 
-## Usage
+## Usage Examples
+TODO
