@@ -8,6 +8,7 @@ Python 3.6
 TODO
 
 ## Usage Examples
+###BluePill with playback
 ```python
 from BluePill import *
 import boto3
@@ -52,4 +53,61 @@ class test_SomeAWSFunctions(unittest.TestCase):
     def test_your_function_with_real_api_calls(self):
         result = real_fun()
         self.assertTrue(result)
+```
+###BluePill with recording
+```python
+from BluePill import *
+import boto3
+import unittest
+
+class test_SomeAWSFunctions(unittest.TestCase):
+
+    # Create a default BluePill/Placebo environment with recording toggled on.
+    # This is useful for gathering initial data and then remove for playback testing.
+    #
+    def setUp(self):
+        BluePill.RECORD = True
+        BluePill.SESSION = boto3.Session(
+            aws_access_key_id='1',
+            aws_secret_access_key='1',
+            aws_session_token='1',
+            region_name='none')
+        BluePill.FOLDER_PATH = 'placebo/s3-tests'
+        BluePill.CLIENT_TYPE = 's3'
+
+    # BluePill the method and record api calls on the default boto3 client for ListBuckets
+    #
+    @BluePill()
+    def record_aws_function(self, client):
+        client.list_buckets()
+    
+    # BluePill the method and playback the response to ListBuckets
+    #
+    @BluePill(record=False)
+    def playback_aws_function(self.client):
+        client.list_buckets()
+```
+###Use outside of unit tests
+```python
+from BluePill import *
+import boto3
+
+# Build default args for BluePill
+#
+def _defaultPill():
+    return {
+        'record': True,
+        'session': boto3.Session(
+            aws_access_key_id='1',
+            aws_secret_access_key='1',
+            aws_session_token='1',
+            region_name='none'),
+        'folder_path': 'placebo',
+        'client_type': 's3'}
+
+# BluePill the function using the default kwargs
+#
+@BluePill(_defaultPill())
+def aws_function(client):
+    client.list_buckets()
 ```

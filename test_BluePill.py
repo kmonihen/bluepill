@@ -8,8 +8,8 @@ class test_BluePill(unittest.TestCase):
     #
     def setUp(self):
         self.instance = None
-        self.result = None
         self.boto3Session = None
+        BluePill.RECORD = False
         BluePill.CLIENT_TYPE = None
         BluePill.FOLDER_PATH = None
         BluePill.SESSION = None
@@ -88,7 +88,7 @@ class test_BluePill(unittest.TestCase):
         @BluePill()
         def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
-        self.result = testFunction()
+        self.assertEqual(testFunction(), 3)
 
     # test_BluePill__call__with_client_type
     #
@@ -98,7 +98,7 @@ class test_BluePill(unittest.TestCase):
         @BluePill(client_type='cloudformation')
         def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
-        self.result = testFunction()
+        self.assertEqual(testFunction(), 3)
     
     # test_BluePill__call__with_folder_path
     #
@@ -108,7 +108,7 @@ class test_BluePill(unittest.TestCase):
         @BluePill(folder_path='test-data')
         def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
-        self.result = testFunction()
+        self.assertEqual(testFunction(), 3)
 
     # test_BluePill__call__with_session
     #
@@ -118,7 +118,7 @@ class test_BluePill(unittest.TestCase):
         @BluePill(session=self._createSession())
         def testFunction(client, arg1=1, arg2=2):
             return arg1+arg2
-        self.result = testFunction()
+        self.assertEqual(testFunction(), 3)
     
     # test_BluePill__call__use_client
     #
@@ -129,4 +129,37 @@ class test_BluePill(unittest.TestCase):
         def testFunction(client, arg1=1, arg2=2,):
             client.list_stacks()
             return arg1+arg2
-        self.result = testFunction()
+        self.assertEqual(testFunction(), 3)
+    
+    # test_BluePill__call__recording
+    #
+    def test_BluePill__call__recording(self):
+        BluePill.CLIENT_TYPE='s3'
+        BluePill.FOLDER_PATH = 'test-data/record'
+        BluePill.SESSION = self._createSession()
+        @BluePill(record=True)
+        def testRecord(client):
+            return True
+        self.assertTrue(testRecord())
+
+    # test_BluePill__call__recording_class_variable
+    #
+    def test_BluePill__call__recording_class_variable(self):
+        BluePill.RECORD = True
+        BluePill.CLIENT_TYPE='s3'
+        BluePill.FOLDER_PATH = 'test-data/record'
+        BluePill.SESSION = self._createSession()
+        @BluePill()
+        def testRecord(client):
+            return True
+        self.assertTrue(testRecord())
+    
+    # test_BluePill__call__recording_wrong_type
+    #
+    def test_BluePill__call__recording_class_variable_wrong_type(self):
+        BluePill.RECORD = 'true'
+        BluePill.CLIENT_TYPE='s3'
+        BluePill.FOLDER_PATH = 'test-data/record'
+        BluePill.SESSION = self._createSession()
+        self.assertRaises(TypeError, BluePill)
+ 
