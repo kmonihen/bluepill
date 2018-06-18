@@ -8,7 +8,7 @@ Python 3.6
 TODO
 
 ## Usage Examples
-###BluePill with playback
+### BluePill with playback
 ```python
 from BluePill import *
 import boto3
@@ -54,7 +54,7 @@ class test_SomeAWSFunctions(unittest.TestCase):
         result = real_fun()
         self.assertTrue(result)
 ```
-###BluePill with recording
+### BluePill with recording
 ```python
 from BluePill import *
 import boto3
@@ -87,7 +87,7 @@ class test_SomeAWSFunctions(unittest.TestCase):
     def playback_aws_function(self.client):
         client.list_buckets()
 ```
-###Use outside of unit tests
+### Use outside of unit tests
 ```python
 from BluePill import *
 import boto3
