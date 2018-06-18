@@ -21,9 +21,16 @@ def setUp(self):
 # This test will use the default s3 client and s3-tests path
 #
 @BluePill()
-def test_you_s3_function(self, client):
+def test_your_s3_function(self, client):
     result = s3_fun(cfn_client=client)
     self.assertTrue(result)
+
+# Very useful for switching to a data path for a specific test
+#
+@BluePill(folder_path='placebo/s3-tests/test2-bad-data')
+def test_your_s3_function_test2_bad_data(self, client):
+    result = s3_fun(cfn_client=client)
+    self.assertFalse(result)
 
 # We want to test cloudformation here, so switch the client and the test data location
 #
