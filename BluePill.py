@@ -39,8 +39,8 @@ class BluePill(object):
             # Attach to session
             pill = placebo.attach(self.session, data_path=self.folderPath)
 
+            # Set the client for use in the unit test
             kwargs['client'] = self.session.client(self.clientType)
-            #TODO: get client to test function
             
             pill.playback()
             return function(*args, **kwargs)
