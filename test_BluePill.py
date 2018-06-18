@@ -31,7 +31,7 @@ class test_BluePill(unittest.TestCase):
     # test_BluePill__init__only_folder_path
     #
     def test_BluePill__init__only_folder_path(self):
-        self.assertRaises(ValueError, BluePill, folder_path='placebo')
+        self.assertRaises(ValueError, BluePill, folder_path='test-data')
 
     # test_BluePill__init__only_client_type
     #
@@ -46,7 +46,7 @@ class test_BluePill(unittest.TestCase):
     # test_BluePill__init__only_class_FOLDER_TYPE
     #
     def test_BluePill__init__only_class_FOLDER_TYPE(self):
-        BluePill.FOLDER_TYPE = 'placebo'
+        BluePill.FOLDER_TYPE = 'test-data'
         self.assertRaises(ValueError, BluePill)
 
     # test_BluePill__init__only_class_CLIENT_TYPE
@@ -65,7 +65,7 @@ class test_BluePill(unittest.TestCase):
     #
     def test_BluePill__init__all_class_variables(self):
         BluePill.CLIENT_TYPE = 'cloudformation'
-        BluePill.FOLDER_PATH = 'placebo'
+        BluePill.FOLDER_PATH = 'test-data'
         BluePill.SESSION = self._createSession()
         self.instance = BluePill()
         self.assertIsInstance(self.instance, BluePill)
@@ -75,7 +75,7 @@ class test_BluePill(unittest.TestCase):
     def test_BluePill__init__all_init_variables(self):
         self.instance = BluePill(
             client_type='cloudformation',
-            folder_path='placebo',
+            folder_path='test-data',
             session=self._createSession())
         self.assertIsInstance(self.instance, BluePill)
 
@@ -83,7 +83,7 @@ class test_BluePill(unittest.TestCase):
     #
     def test_BluePill__call__set_class_client(self):
         BluePill.CLIENT_TYPE = 'cloudformation'
-        BluePill.FOLDER_PATH = 'placebo'
+        BluePill.FOLDER_PATH = 'test-data'
         BluePill.SESSION = self._createSession()
         @BluePill()
         def testFunction(arg1=1, arg2=2):
@@ -93,7 +93,7 @@ class test_BluePill(unittest.TestCase):
     # test_BluePill__call__with_client_type
     #
     def test_BluePill__call__with_client_type(self):
-        BluePill.FOLDER_PATH = 'placebo'
+        BluePill.FOLDER_PATH = 'test-data'
         BluePill.SESSION = self._createSession()
         @BluePill(client_type='cloudformation')
         def testFunction(arg1=1, arg2=2):
@@ -105,7 +105,7 @@ class test_BluePill(unittest.TestCase):
     def test_BluePill__call__with_folder_path(self):
         BluePill.CLIENT_TYPE = 'cloudformation'
         BluePill.SESSION = self._createSession()
-        @BluePill(folder_path='placebo')
+        @BluePill(folder_path='test-data')
         def testFunction(arg1=1, arg2=2):
             return arg1+arg2
         self.result = testFunction()
@@ -114,8 +114,19 @@ class test_BluePill(unittest.TestCase):
     #
     def test_BluePill__call__with_session(self):
         BluePill.CLIENT_TYPE = 'cloudformation'
-        BluePill.FOLDER_PATH = 'placebo'
+        BluePill.FOLDER_PATH = 'test-data'
         @BluePill(session=self._createSession())
         def testFunction(arg1=1, arg2=2):
+            return arg1+arg2
+        self.result = testFunction()
+    
+    # test_BluePill__call__use_client
+    #
+    def test_BluePill__call__use_client(self):
+        BluePill.CLIENT_TYPE = 'cloudformation'
+        BluePill.FOLDER_PATH = 'test-data'
+        @BluePill(session=self._createSession())
+        def testFunction(arg1=1, arg2=2):
+            client.get_available_regions() # Need to get client defined
             return arg1+arg2
         self.result = testFunction()

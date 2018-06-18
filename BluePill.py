@@ -11,7 +11,7 @@ import boto3
 class BluePill(object):
 
     # Set these as defaults in the TestCase setUp.
-    SESSION = None
+    SESSION = None # A boto3 session that Placebo attaches to.
     CLIENT_TYPE=None # The boto3 client type. 
     FOLDER_PATH=None # The path of the placebo data folder
 
@@ -20,7 +20,7 @@ class BluePill(object):
     # Optional Parameters:
     #  client_type (String) - The boto3 client type.
     #  folder_path (String) - The path of the placebo data folder.
-    #  session (boto3.Session) - A boto3 session to use to 
+    #  session (boto3.Session) - A boto3 session that Placebo attaches to.
     def __init__(self, client_type=None, folder_path=None, session=None):
         # Either use the provided values or the class values
         self.session = session if session else self.SESSION
@@ -36,10 +36,12 @@ class BluePill(object):
     #
     def __call__(self, function, *args, **kwargs):
         def wrappedFunction(*args, **kwargs):
-            print('Called {fn} with args: {args} using boto3 client {client}'.format(fn=function.__name__,args=args, client=self.clientType))
             # Attach the session to the response data and start playback
             pill = placebo.attach(self.session, data_path=self.folderPath)
-            orgClient = self.session.client(self.clientType)
+
+            client = self.session.client(self.clientType)
+            #TODO: get client to test function
+            
             pill.playback()
             return function(*args, **kwargs)
         return wrappedFunction
