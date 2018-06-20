@@ -10,7 +10,7 @@ TODO
 ## Usage Examples
 ### BluePill with playback
 ```python
-from BluePill import *
+from bluepill import *
 import boto3
 import unittest
 
@@ -56,7 +56,7 @@ class test_SomeAWSFunctions(unittest.TestCase):
 ```
 ### BluePill with recording
 ```python
-from BluePill import *
+from bluepill import *
 import boto3
 import unittest
 
@@ -89,7 +89,7 @@ class test_SomeAWSFunctions(unittest.TestCase):
 ```
 ### Use outside of unit tests
 ```python
-from BluePill import *
+from bluepill import *
 import boto3
 
 # Build default args for BluePill
