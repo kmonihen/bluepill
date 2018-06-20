@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="bluepill",
-    version="1.0.1",
+    version=open('LICENSE').read(),
     author="Keith Monihen",
     author_email="keith.monihen@stelligent.com",
     description="An expanded decorator class for modifying Placebo playback or recording with boto3 calls.",
