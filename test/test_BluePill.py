@@ -1,4 +1,4 @@
-from bluepill.bluepill import *
+import bluepill.BluePill
 import unittest
 import boto3
 
