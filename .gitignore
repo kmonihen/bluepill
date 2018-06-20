@@ -1,3 +1,7 @@
 __pycache__
+.DS_Store
 Pipfile
 Pipfile.lock
+bluepill.egg-info
+build
+dist
