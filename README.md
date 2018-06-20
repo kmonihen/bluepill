@@ -1,3 +1,4 @@
+[![Build Status](https://circleci.com/gh/kmonihen/BluePill.svg?style=svg)](https://circleci.com/gh/kmonihen/BluePill)
 # BluePill :pill:
 An expanded decorator class for modifying Placebo playback when unit testing with boto3 calls.
 
