@@ -37,8 +37,4 @@ jobs:
           name: unit tests
           command: |
             . venv/bin/activate
-            python manage.py test
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+            python -m unittest discover
