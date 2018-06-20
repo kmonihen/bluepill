@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.6.5
 
     working_directory: ~/repo
 
@@ -26,7 +26,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-            pip install coverage python-coveralls
+            pip install coverage nose
 
       - save_cache:
           paths:
@@ -37,4 +37,4 @@ jobs:
           name: unit tests
           command: |
             . venv/bin/activate
-            python -m unittest discover
+            nosetests test --cover-erase --with-coverage --cover-package bluepill
