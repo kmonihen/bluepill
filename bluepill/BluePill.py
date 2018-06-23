@@ -24,22 +24,31 @@ class BluePill(object):
     #  session (boto3.Session) - A boto3 session that Placebo attaches to.
     #  record (Boolean) - Switch to record mode.
     def __init__(self, client_type=None, folder_path=None, session=None, record=None):
-        # Either use the provided values or the class values
-        self.session = session if session else self.SESSION
-        self.clientType = client_type if client_type else self.CLIENT_TYPE
-        self.folderPath = folder_path if folder_path else self.FOLDER_PATH
-        self.record = record if record is not None else self.RECORD
+        self.session = session
+        self.clientType = client_type
+        self.folderPath = folder_path
+        self.record = record
+
+    # setOptions
+    #  Options can change between __init__ and __call__ so check the variables and set them.
+    def _setOptions(self):
+        if not self.session: self.session = self.SESSION
+        if not self.clientType: self.clientType = self.CLIENT_TYPE
+        if not self.folderPath: self.folderPath = self.FOLDER_PATH
+        if not isinstance(self.record, bool): self.record = self.RECORD
 
         # Raise exception if none of the required variables are provided
         if not self.clientType: raise ValueError("You must provide 'client_type' parameter or set the 'CLIENT_TYPE' class variable.")
         if not self.folderPath: raise ValueError("You must provide 'folder_path' parameter or set the 'FOLDER_PATH' class variable.")
         if not self.session: raise ValueError("You must provide the 'session' parameter or set the 'SESSION' class variable.")
         if not isinstance(self.record, bool): raise TypeError("You must provide a boolean value for the 'record' parameter or 'RECORD' class variable")
+        return True
     
     # __call__
     #
     def __call__(self, function, *args, **kwargs):
         def placeboTest(*args, **kwargs):
+            self._setOptions()
             # Attach to session
             pill = placebo.attach(self.session, data_path=self.folderPath)
 

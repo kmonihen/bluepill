@@ -25,59 +25,66 @@ class test_BluePill(unittest.TestCase):
     
     # test_BluePill__init__no_params_no_class_vars
     #
-    def test_BluePill__init__no_params_no_class_vars(self):
-        self.assertRaises(ValueError, BluePill)
+    def test_BluePill_no_params_no_class_vars(self):
+        self.instance = BluePill()
+        self.assertRaises(ValueError, self.instance._setOptions)
 
     # test_BluePill__init__only_folder_path
     #
-    def test_BluePill__init__only_folder_path(self):
-        self.assertRaises(ValueError, BluePill, folder_path='responses')
+    def test_BluePill_only_folder_path(self):
+        self.instance = BluePill(folder_path='responses')
+        self.assertRaises(ValueError, self.instance._setOptions)
 
     # test_BluePill__init__only_client_type
     #
-    def test_BluePill__init__only_client_type(self):
-        self.assertRaises(ValueError, BluePill, client_type='cloudformation')
+    def test_BluePill_only_client_type(self):
+        self.instance = BluePill(client_type='cloudformation')
+        self.assertRaises(ValueError, self.instance._setOptions)
     
     # test_BluePill__init__only_session
     #
-    def test_BluePill__init__only_client_session(self):
-        self.assertRaises(ValueError, BluePill, session=self._createSession())
+    def test_BluePill_only_client_session(self):
+        self.instance = BluePill(session=self._createSession())
+        self.assertRaises(ValueError, self.instance._setOptions)
 
     # test_BluePill__init__only_class_FOLDER_TYPE
     #
-    def test_BluePill__init__only_class_FOLDER_TYPE(self):
+    def test_BluePill_only_class_FOLDER_TYPE(self):
+        self.instance = BluePill()
         BluePill.FOLDER_TYPE = 'responses'
-        self.assertRaises(ValueError, BluePill)
+        self.assertRaises(ValueError, self.instance._setOptions)
 
     # test_BluePill__init__only_class_CLIENT_TYPE
     #
-    def test_BluePill__init__only_class_CLIENT_TYPE(self):
+    def test_BluePill_only_class_CLIENT_TYPE(self):
+        self.instance = BluePill()
         BluePill.CLIENT_TYPE = 'cloudformation'
-        self.assertRaises(ValueError, BluePill)
+        self.assertRaises(ValueError, self.instance._setOptions)
     
     # test_BluePill__init__only_class_SESSION
     #
-    def test_BluePill__init__only_class_SESSION(self):
+    def test_BluePill_only_class_SESSION(self):
+        self.instance = BluePill()
         BluePill.SESSION = self._createSession()
-        self.assertRaises(ValueError, BluePill)
+        self.assertRaises(ValueError, self.instance._setOptions)
     
     # test_BluePill__init__all_class_variables
     #
-    def test_BluePill__init__all_class_variables(self):
+    def test_BluePill_all_class_variables(self):
         BluePill.CLIENT_TYPE = 'cloudformation'
         BluePill.FOLDER_PATH = 'responses'
         BluePill.SESSION = self._createSession()
         self.instance = BluePill()
-        self.assertIsInstance(self.instance, BluePill)
+        self.assertTrue(self.instance._setOptions())
 
     # test_BluePill__init__all_init_variables
     #
-    def test_BluePill__init__all_init_variables(self):
+    def test_BluePill_all_init_variables(self):
         self.instance = BluePill(
             client_type='cloudformation',
             folder_path='responses',
             session=self._createSession())
-        self.assertIsInstance(self.instance, BluePill)
+        self.assertTrue(self.instance._setOptions())
 
     # test_BluePill__call__set_class_variables
     #
@@ -161,5 +168,6 @@ class test_BluePill(unittest.TestCase):
         BluePill.CLIENT_TYPE='s3'
         BluePill.FOLDER_PATH = 'test/responses/record'
         BluePill.SESSION = self._createSession()
-        self.assertRaises(TypeError, BluePill)
+        self.instance = BluePill()
+        self.assertRaises(TypeError, self.instance._setOptions)
  

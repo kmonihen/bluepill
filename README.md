@@ -19,13 +19,14 @@ class test_SomeAWSFunctions(unittest.TestCase):
 
     # Create a default BluePill/Placebo environment
     #
-    BluePill.SESSION = boto3.Session(
-        aws_access_key_id='1',
-        aws_secret_access_key='1',
-        aws_session_token='1',
-        region_name='none')
-    BluePill.FOLDER_PATH = 'placebo/s3-tests'
-    BluePill.CLIENT_TYPE = 's3'
+    def setUp(self):
+        BluePill.SESSION = boto3.Session(
+            aws_access_key_id='1',
+            aws_secret_access_key='1',
+            aws_session_token='1',
+            region_name='none')
+        BluePill.FOLDER_PATH = 'placebo/s3-tests'
+        BluePill.CLIENT_TYPE = 's3'
 
     # This test will use the default s3 client and placebo/s3-tests path
     #
@@ -65,14 +66,15 @@ class test_SomeAWSFunctions(unittest.TestCase):
     # Create a default BluePill/Placebo environment with recording toggled on.
     # This is useful for gathering initial data and then remove for playback testing.
     #
-    BluePill.RECORD = True
-    BluePill.SESSION = boto3.Session(
-        aws_access_key_id='1',
-        aws_secret_access_key='1',
-        aws_session_token='1',
-        region_name='none')
-    BluePill.FOLDER_PATH = 'placebo/s3-tests'
-    BluePill.CLIENT_TYPE = 's3'
+    def setUp(self):
+        BluePill.RECORD = True
+        BluePill.SESSION = boto3.Session(
+            aws_access_key_id='1',
+            aws_secret_access_key='1',
+            aws_session_token='1',
+            region_name='none')
+        BluePill.FOLDER_PATH = 'placebo/s3-tests'
+        BluePill.CLIENT_TYPE = 's3'
 
     # BluePill the method and record api calls on the default boto3 client for ListBuckets
     #
@@ -93,20 +95,17 @@ import boto3
 
 # Build default args for BluePill
 #
-def _defaultPill():
-    return {
-        'record': True,
-        'session': boto3.Session(
-            aws_access_key_id='1',
-            aws_secret_access_key='1',
-            aws_session_token='1',
-            region_name='none'),
-        'folder_path': 'placebo',
-        'client_type': 's3'}
+BluePill.SESSION = boto3.Session(
+    aws_access_key_id='1',
+    aws_secret_access_key='1',
+    aws_session_token='1',
+    region_name='none')
+BluePill.FOLDER_PATH = 'placebo/s3-tests'
+BluePill.CLIENT_TYPE = 's3'
 
-# BluePill the function using the default kwargs
+# BluePill the function using the default args
 #
-@BluePill(_defaultPill())
+@BluePill()
 def aws_function(client):
     client.list_buckets()
 ```
