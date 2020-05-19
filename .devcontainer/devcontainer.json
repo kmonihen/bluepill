@@ -1,0 +1,58 @@
+{
+	"name": "Bluepill Development",
+	"dockerFile": "Dockerfile",
+	"appPort": 9002,
+	"remote.containers.workspaceMountConsistency": "consistent",
+	"mounts": [
+		// Bash History
+		"source=python-bash_history,target=/commandhistory,type=volume"
+	],
+	"runArgs": [
+		// SSH
+		"-v", "${localEnv:HOME}/.ssh:/home/python-dev/.ssh:ro",
+		// GPG
+		"-v", "${localEnv:HOME}/.gnupg/private-keys-v1.d:/home/python-dev/.gnupg/private-keys-v1.d:ro",
+		"-v", "${localEnv:HOME}/.gnupg/pubring.kbx:/home/python-dev/.gnupg/pubring.kbx:ro",
+		"-v", "${localEnv:HOME}/.gnupg/trustdb.gpg:/home/python-dev/.gnupg/trustdb.gpg:ro"
+	],
+	"extensions": [
+		"CoenraadS.bracket-pair-colorizer",
+		"fabiospampinato.vscode-diff",
+		"mrmlnc.vscode-duplicate",
+		"ms-azuretools.vscode-docker",
+		"wayou.vscode-todo-highlight",
+		"mohsen1.prettify-json",
+		"redhat.vscode-yaml",
+		"njpwerner.autodocstring",
+		"sjhuangx.vscode-scheme",
+		"ms-python.python"
+	],
+	"settings": {
+		// Bracket Pair Colorizer
+		"bracketPairColorizer.forceUniqueOpeningColor": false,
+		"bracketPairColorizer.colorMode": "Consecutive",
+		"bracketPairColorizer.highlightActiveScope": true,
+		"bracketPairColorizer.activeScopeCSS": [
+			"borderStyle : solid",
+			"borderWidth : 1px",
+			"borderColor : {color}; opacity: 0.5",
+			"backgroundColor : {color}"
+		],
+		"editor.matchBrackets": "never",
+		"bracketPairColorizer.showBracketsInGutter": true,
+		// YAML
+		"[yaml]": {
+			"editor.insertSpaces": true,
+			"editor.tabSize": 2
+		},
+		"yaml.format.enable": true,
+		"yaml.format.singleQuote": true,
+		"yaml.format.bracketSpacing": true,
+		"yaml.format.printWidth": 120,
+		"yaml.format.proseWrap": "always",
+		// TODO
+		"todohighlight.isEnable": true,
+		"todohighlight.isCaseSensitive": false
+	},
+    //"postCreateCommand": "make deps"
+}

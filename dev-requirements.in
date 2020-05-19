@@ -1,0 +1,11 @@
+# Used by pip-tools to generate a dev-requirements.txt for testing and development
+-c requirements.txt
+
+boto3
+sphinx
+prospector
+pytest
+pytest-cov
+mock
+bandit
+yapf
