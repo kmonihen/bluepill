@@ -1,6 +1,3 @@
-# Directory for documentation
-pydoc_dir = docs
-
 # Python code locations
 app_code = bluepill/*.py
 test_code = tests/*.py
@@ -44,12 +41,6 @@ yapf: dev-deps
 # Run yapf formatting then prospector. Use this for local dev.
 dev-lint: dev-deps yapf
 	prospector $(app_code) $(test_code)
-
-# Generate documentation (WIP)
-docs: *.py dev-deps
-	mkdir -p $(pydoc_dir) && \
-	cd $(pydoc_dir) && \
-	pydocmd simple bluepill+
 
 # clean artifacts between runs
 clean:
