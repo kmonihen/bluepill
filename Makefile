@@ -49,7 +49,7 @@ dev-lint: dev-deps yapf
 docs: *.py dev-deps
 	mkdir -p $(pydoc_dir) && \
 	cd $(pydoc_dir) && \
-	pydocmd simple topograph+
+	pydocmd simple bluepill+
 
 # clean artifacts between runs
 clean:
