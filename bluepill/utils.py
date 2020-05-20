@@ -2,17 +2,25 @@
 
     Typical usage examples:
 
-    bp_config = script(client_type="cloudformation",
-                       folder_path="responses",
-                       session=boto3_session)
-    @bluepill(bp_config)
+    bluepill.default_script = script(client_type="cloudformation",
+                                     folder_path="responses",
+                                     session=boto3_session)
+    @bluepill()
     def test_cloudformation(self, client):
-        response = client.get_stack_policy(StackName="TestStack")
+        # Use a placebo session with the default settings.
+        response = client.get_stack_policy(StackName="SomeTestStack")
         self.assertEqual(response, "some expected response string")
+    
+    @bluepill(client_type="s3")
+        # Use an s3 client with the default settings.
+        def test_s3(self, client):
+            response = client.get_bucket_tagging(Bucket="SomeTestBucket")
+            self.assertEqual(response, "some expected response string")
 """
 
 import placebo
 import copy
+from functools import wraps
 
 
 class script():
@@ -74,6 +82,7 @@ class bluepill():
         Args:
             function (func): The function being wrapped with the placebo client.
         """
+        @wraps(function)
         def placebo_test(*args, **kwargs):
             """Wrapping the test function.
 
