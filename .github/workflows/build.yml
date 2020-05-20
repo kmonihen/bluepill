@@ -1,4 +1,4 @@
-name: bluepill build
+name: build
 
 on:
   push:
