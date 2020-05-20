@@ -1,3 +1,5 @@
+![build](https://github.com/kmonihen/bluepill/workflows/build/badge.svg?branch=master)
+![Python 3.6](https://img.shields.io/badge/python-3.6%203.7%203.8-blue.svg)
 
 #  bluepill
 An expanded decorator class for modifying Placebo playback when unit testing with boto3 calls.
