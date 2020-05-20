@@ -1,6 +1,7 @@
 """An expanded decorator class for using Placebo when unit testing boto3 calls.
 
     Typical usage examples:
+
     bp_config = script(client_type="cloudformation",
                        folder_path="responses",
                        session=boto3_session)
@@ -8,10 +9,10 @@
     def test_cloudformation(self, client):
         response = client.get_stack_policy(StackName="TestStack")
         self.assertEqual(response, "some expected response string")
-)
 """
 
 import placebo
+import copy
 
 
 class script():
@@ -42,16 +43,30 @@ class bluepill():
     """A decorator class to help testing with placebo.
     
         Attributes:
+            default_script (script, optional): The default script properties to use. Defaults to None.
             script (script): The script configuration.
     """
+
+    default_script = None
+
     @property
     def script(self):
         """The bluepill configuration."""
         return self.__script
 
-    def __init__(self, script):
+    def __init__(self, **kwargs):
         """Initialize with a bluepill configuration (script)."""
-        self.__script = script
+        if "script" in kwargs:
+            self.__script = kwargs.get("script")
+        elif self.default_script:
+            self.__script = copy.deepcopy(self.default_script)
+        else:
+            raise TypeError("You must provide a script parameter or set the default_script attribute.")
+
+        self.script.client_type = kwargs.get("client_type", self.script.client_type)
+        self.script.folder_path = kwargs.get("folder_path", self.script.folder_path)
+        self.script.session = kwargs.get("session", self.script.session)
+        self.script.record = kwargs.get("record", self.script.record)
 
     def __call__(self, function, *args, **kwargs):
         """Set up the placebo client and pass the client to the function.
