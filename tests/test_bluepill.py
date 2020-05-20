@@ -7,6 +7,15 @@ import boto3
 
 class test_bluepill(unittest.TestCase):
     """Test the bluepill decorator class."""
+
+    def setUp(self):
+        """Create a default script for tests and reset the class default script."""
+        bluepill.default_script = None
+        self._script = script(client_type="cloudformation",
+                                        folder_path="responses",
+                                        session=self._create_session(),
+                                        record=False)
+
     def _create_session(self):
         """Helper function to create boto3 sessions."""
         return boto3.Session(aws_access_key_id='1',
@@ -34,34 +43,37 @@ class test_bluepill(unittest.TestCase):
     def test_bluepill_no_script(self):
         """Test instantiating bluepill without a script config. Should throw a TypeError."""
         with self.assertRaises(TypeError):
-            self.instance = bluepill()  # pylint: disable=no-value-for-parameter
+            bluepill()  # pylint: disable=no-value-for-parameter
 
     def test_bluepill_with_script(self):
         """Test instantiating bluepill with a script config."""
         test_script = script(client_type="cloudformation",
                              folder_path="responses",
                              session=self._create_session())
-        self.instance = bluepill(script=test_script)
+        instance = bluepill(script=test_script)
+        self.assertIsInstance(instance, bluepill)
+
+    def test_bluepill_with_default_script(self):
+        """Test instantiating bluepill with a default_script set."""
+        bluepill.default_script = self._script
+        instance = bluepill()
+        self.assertIsInstance(instance, bluepill)
 
     def test_bluepill__call__(self):
         """Test the bluepill decorator."""
-        test_script = script(client_type="cloudformation",
-                             folder_path="responses",
-                             session=self._create_session())
+        bluepill.default_script = self._script
 
-        @bluepill(test_script)
-        def testFunction(client, arg1=1, arg2=2):
+        @bluepill()
+        def testFunction(client, arg1, arg2):
             return arg1 + arg2
 
-        self.assertEqual(testFunction(), 3)
+        self.assertEqual(testFunction(arg1=1, arg2=2), 3) # pylint: disable=no-value-for-parameter
 
     def test_bluepill_call_without_client(self):
         """Test the bluepill decorator without specifying the client parameter."""
-        test_script = script(client_type="cloudformation",
-                             folder_path="responses",
-                             session=self._create_session())
+        bluepill.default_script = self._script
 
-        @bluepill(test_script)
+        @bluepill()
         def testFunction():
             return True
 
@@ -74,7 +86,7 @@ class test_bluepill(unittest.TestCase):
                              session=self._create_session(),
                              record=True)
 
-        @bluepill(test_script)
+        @bluepill(script=test_script)
         def testRecord(client):
             return True
 
